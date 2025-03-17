@@ -3,11 +3,11 @@ using UnityEngine;
 public static class RectTransformUtils
 {    public static void SetPosX(this RectTransform rectTransform, float x)
     {
-        rectTransform.localPosition = new Vector3(x, rectTransform.localPosition.y, rectTransform.localPosition.z);
+        rectTransform.position = new Vector3(x, rectTransform.position.y, rectTransform.position.z);
     }
     public static void SetPosY(this RectTransform rectTransform, float y)
     {
-        rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, y, rectTransform.localPosition.z);
+        rectTransform.position = new Vector3(rectTransform.position.x, y, rectTransform.position.z);
     }
     public static void SetWidth(this RectTransform rectTransform, float width)
     {

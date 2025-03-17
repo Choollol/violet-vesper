@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class UIComponentUtil : UIUtil
 {
+    protected RectTransform rectTransform;
     public override void Awake()
     {
-
+        rectTransform = GetComponent<RectTransform>();
     }
     public override void OnEnable()
     {

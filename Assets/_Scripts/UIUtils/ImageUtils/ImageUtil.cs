@@ -9,6 +9,8 @@ public class ImageUtil : UIComponentUtil
         base.Awake();
 
         image = GetComponent<Image>();
+
+        image.alphaHitTestMinimumThreshold = 0.5f;
     }
     protected override void Enable()
     {

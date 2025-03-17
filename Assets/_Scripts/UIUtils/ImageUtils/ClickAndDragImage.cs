@@ -1,0 +1,49 @@
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler
+{
+    private void SetPosition(PointerEventData eventData)
+    {
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position,
+            eventData.pressEventCamera, out Vector3 mousePos);
+        rectTransform.position = mousePos;
+
+        BoundPosition();
+    }
+    private void BoundPosition()
+    {
+        float leftBound = rectTransform.rect.width / 2 * rectTransform.localScale.x;
+        float rightBound = Screen.width - rectTransform.rect.width / 2 * rectTransform.localScale.x;
+
+        if (rectTransform.position.x < leftBound)
+        {
+            rectTransform.SetPosX(leftBound);
+        }
+        else if (rectTransform.position.x > rightBound)
+        {
+            rectTransform.SetPosX(rightBound);
+        }
+
+        float bottomBound = rectTransform.rect.height / 2 * rectTransform.localScale.y;
+        float topBound = Screen.height - rectTransform.rect.height / 2 * rectTransform.localScale.y;
+
+        if (rectTransform.position.y < bottomBound)
+        {
+            rectTransform.SetPosY(bottomBound);
+        }
+        else if (rectTransform.position.y > topBound)
+        {
+            rectTransform.SetPosY(topBound);
+        }
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        SetPosition(eventData);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        SetPosition(eventData);
+    }
+}

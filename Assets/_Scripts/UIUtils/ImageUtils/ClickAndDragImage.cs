@@ -1,8 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler
+public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
+    private const float snapDistance = 50;
+
+    private bool canDrag = true;
+
+    [SerializeField] private Transform destinationToSnapTo;
+
+
     private void SetPosition(PointerEventData eventData)
     {
         RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position,
@@ -39,11 +46,30 @@ public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler
     }
     public void OnDrag(PointerEventData eventData)
     {
+        if (!canDrag)
+        {
+            return;
+        }
+
         SetPosition(eventData);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!canDrag)
+        {
+            return;
+        }
+
         SetPosition(eventData);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (destinationToSnapTo != null && Vector2.Distance(rectTransform.position, destinationToSnapTo.position) <= snapDistance)
+        {
+            rectTransform.position = destinationToSnapTo.position;
+            canDrag = false;
+        }
     }
 }

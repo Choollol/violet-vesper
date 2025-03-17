@@ -13,8 +13,8 @@ public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler
     }
     private void BoundPosition()
     {
-        float leftBound = rectTransform.rect.width / 2 * rectTransform.localScale.x;
-        float rightBound = Screen.width - rectTransform.rect.width / 2 * rectTransform.localScale.x;
+        float leftBound = rectTransform.rect.width / 2 * rectTransform.lossyScale.x;
+        float rightBound = Screen.width - rectTransform.rect.width / 2 * rectTransform.lossyScale.x;
 
         if (rectTransform.position.x < leftBound)
         {
@@ -25,8 +25,8 @@ public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler
             rectTransform.SetPosX(rightBound);
         }
 
-        float bottomBound = rectTransform.rect.height / 2 * rectTransform.localScale.y;
-        float topBound = Screen.height - rectTransform.rect.height / 2 * rectTransform.localScale.y;
+        float bottomBound = rectTransform.rect.height / 2 * rectTransform.lossyScale.y;
+        float topBound = Screen.height - rectTransform.rect.height / 2 * rectTransform.lossyScale.y;
 
         if (rectTransform.position.y < bottomBound)
         {

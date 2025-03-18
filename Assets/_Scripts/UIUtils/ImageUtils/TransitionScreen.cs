@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TransitionScreen : ImageUtil
@@ -25,6 +26,8 @@ public class TransitionScreen : ImageUtil
         base.Start();
 
         animator = GetComponent<Animator>();
+
+        BeginTransition();
     }
 
     // Stop transition if it is currently active
@@ -56,8 +59,6 @@ public class TransitionScreen : ImageUtil
     {
         DataMessenger.SetBool(BoolKey.IsScreenTransitioning, true);
 
-        Enable();
-
         animator.Play(animationName);
 
         yield return null;
@@ -71,7 +72,7 @@ public class TransitionScreen : ImageUtil
         }
         else
         {
-            Disable();
+            SceneManager.UnloadSceneAsync(gameObject.scene);
         }
 
         DataMessenger.SetBool(BoolKey.IsScreenTransitioning, false);

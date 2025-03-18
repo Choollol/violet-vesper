@@ -99,7 +99,10 @@ public class GameManager : MonoBehaviour
             EventMessenger.TriggerEvent(EventKey.CloseMenu);
         }
 
-        EventMessenger.TriggerEvent(EventKey.BeginScreenTransition);
+        AsyncOperation loadTransition =  
+            SceneManager.LoadSceneAsync(SceneUtils.SceneName.Transition_Scene.ToString(), LoadSceneMode.Additive);
+
+        while (!loadTransition.isDone) yield return null;
 
         // Wait for transition screen
         yield return DataMessenger.WaitForBool(BoolKey.IsScreenTransitioning);

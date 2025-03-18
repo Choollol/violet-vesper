@@ -1,16 +1,19 @@
+using UnityEngine;
 using UnityEngine.UI;
 
 // ComponentUtil class for Images
 public class ImageUtil : UIComponentUtil
 {
     protected Image image;
+
+    [SerializeField] private float alphaHitThreshold = 0.5f;
     public override void Awake()
     {
         base.Awake();
 
         image = GetComponent<Image>();
 
-        image.alphaHitTestMinimumThreshold = 0.5f;
+        image.alphaHitTestMinimumThreshold = alphaHitThreshold;
     }
     protected override void Enable()
     {

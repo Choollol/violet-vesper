@@ -9,6 +9,10 @@ public class UIComponentUtil : UIUtil
     {
         rectTransform = GetComponent<RectTransform>();
     }
+    public override void OnDestroy()
+    {
+
+    }
     public override void OnEnable()
     {
         base.OnEnable();

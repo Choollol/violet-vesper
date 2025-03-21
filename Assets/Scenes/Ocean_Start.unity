@@ -170,8 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211ce7a2e1a4ff7489062eae0580dbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableOnStart: 0
-  uiName: 
+  alphaHitThreshold: 0.5
   targetScene: 3
 --- !u!114 &191841920
 MonoBehaviour:
@@ -237,7 +236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 90335e5423c010749a50f906b965fa54, type: 3}
+  m_Sprite: {fileID: -5654812412455529095, guid: b545f35ab6845cc43896f9a399d23cf1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -531,10 +530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e7896cadea2ce4db96ecfc633a5679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableOnStart: 0
-  uiName: 
   alphaHitThreshold: 0.5
-  destinationToSnapTo: {fileID: 0}
+  destinationToSnapTo: {fileID: 2013567971}
 --- !u!1 &2013567970
 GameObject:
   m_ObjectHideFlags: 0

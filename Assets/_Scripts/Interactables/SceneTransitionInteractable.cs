@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SceneTransitionButton : ButtonUtil
+public class SceneTransitionInteractable : ButtonInteractable
 {
     [SerializeField] private SceneUtils.SceneName targetScene;
     public override void Start()

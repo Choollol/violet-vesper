@@ -6,14 +6,11 @@ public class ImageUtil : UIComponentUtil
 {
     protected Image image;
 
-    [SerializeField] private float alphaHitThreshold = 0.5f;
     public override void Awake()
     {
         base.Awake();
 
         image = GetComponent<Image>();
-
-        image.alphaHitTestMinimumThreshold = alphaHitThreshold;
     }
     protected override void Enable()
     {

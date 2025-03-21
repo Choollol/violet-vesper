@@ -123,4 +123,6 @@ public enum EventKey
     TestTransition,
     SwitchMenuToMain,
     SwitchUI,
+    SetSliderValue,
+    SliderUpdated,
 }

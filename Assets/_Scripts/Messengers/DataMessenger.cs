@@ -431,7 +431,8 @@ public enum BoolKey
 }
 public enum FloatKey
 {
-
+    SliderNewValue,
+    SliderValue
 }
 public enum IntKey
 {
@@ -445,7 +446,7 @@ public enum StringKey
 }
 public enum StringListKey
 {
-
+    VolumeCategories
 }
 public enum Vector3Key
 {

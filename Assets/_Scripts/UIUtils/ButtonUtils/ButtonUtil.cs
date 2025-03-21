@@ -12,6 +12,16 @@ public class ButtonUtil : UIComponentUtil
         base.Awake();
 
         button = GetComponent<Button>();
+
+        button.onClick.AddListener(Clicked);
+    }
+    protected virtual void Clicked()
+    {
+        HandleClick();
+    }
+    protected virtual void HandleClick()
+    {
+
     }
     protected override void Enable()
     {

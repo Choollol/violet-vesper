@@ -462,6 +462,6 @@ public enum GameObjectKey
 }
 public enum ScriptableObjectKey
 {
-
+    DialogueData
 }
 #endregion KeyEnums

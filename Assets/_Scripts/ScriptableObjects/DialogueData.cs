@@ -15,6 +15,7 @@ public class DialogueData : ScriptableObject
     /// <returns>The next dialogue in the list; null if end of dialogue is reached.</returns>
     public DialogueNode GetNextDialogue()
     {
+        EventMessenger.TriggerEvent(dialogue[dialogueIndex].eventToTrigger);
         if (dialogueIndex < dialogue.Count)
         {
             return dialogue[dialogueIndex++];

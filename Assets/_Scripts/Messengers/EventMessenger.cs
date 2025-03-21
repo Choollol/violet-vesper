@@ -125,4 +125,5 @@ public enum EventKey
     SwitchUI,
     SetSliderValue,
     SliderUpdated,
+    BeginDialogue,
 }

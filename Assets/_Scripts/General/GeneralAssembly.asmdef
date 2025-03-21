@@ -1,9 +1,9 @@
 {
-    "name": "ScriptableObjectsAssembly",
+    "name": "GeneralAssembly",
     "rootNamespace": "",
     "references": [
-        "GUID:d6e6a257fc9985e44b1f33ac11aa3b62",
-        "GUID:262287f45ec6ccb40896c20550d75cf1"
+        "GUID:262287f45ec6ccb40896c20550d75cf1",
+        "GUID:4efd481dc99f554498b2dd7442de56da"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

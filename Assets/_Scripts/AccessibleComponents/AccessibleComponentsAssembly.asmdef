@@ -1,0 +1,16 @@
+{
+    "name": "AccessibleComponentsAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:262287f45ec6ccb40896c20550d75cf1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

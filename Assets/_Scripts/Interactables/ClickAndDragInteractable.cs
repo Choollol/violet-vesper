@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler, IPointerUpHandler
+public class ClickAndDragInteractable : InteractableImage, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     private const float snapDistance = 50;
-
-    private bool canDrag = true;
 
     [SerializeField] private Transform destinationToSnapTo;
 
@@ -44,32 +42,22 @@ public class ClickAndDragImage : ImageUtil, IDragHandler, IPointerDownHandler, I
             rectTransform.SetPosY(topBound);
         }
     }
-    public void OnDrag(PointerEventData eventData)
+    protected override void HandleDrag(PointerEventData eventData)
     {
-        if (!canDrag)
-        {
-            return;
-        }
-
         SetPosition(eventData);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    protected override void HandlePointerDown(PointerEventData eventData)
     {
-        if (!canDrag)
-        {
-            return;
-        }
-
         SetPosition(eventData);
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    protected override void HandlePointerUp(PointerEventData eventData)
     {
         if (destinationToSnapTo != null && Vector2.Distance(rectTransform.position, destinationToSnapTo.position) <= snapDistance)
         {
             rectTransform.position = destinationToSnapTo.position;
-            canDrag = false;
+            canInteract = false;
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+    "name": "ScriptableObjectsAssembly",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d6e6a257fc9985e44b1f33ac11aa3b62"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

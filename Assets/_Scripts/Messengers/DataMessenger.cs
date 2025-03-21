@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,42 +7,47 @@ using UnityEngine.Events;
 // Allows for communication of data between scripts, decoupling
 public class DataMessenger : MonoBehaviour
 {
-    private static Dictionary<string, bool> bools;
-    private static Dictionary<string, float> floats;
-    private static Dictionary<string, int> ints;
-    private static Dictionary<string, string> strings;
-    private static Dictionary<string, List<string>> stringLists;
-    private static Dictionary<string, Vector3> vector3s;
-    private static Dictionary<string, Quaternion> quaternions;
-    private static Dictionary<string, GameObject> gameObjects;
-    private static Dictionary<string, ScriptableObject> scriptableObjects;
+    private static Dictionary<Type, Dictionary<string, object>> data;
 
-    private static readonly string DEFAULT_STRING = string.Empty;
-    private static readonly List<string> DEFAULT_STRING_LIST = new();
-    private static readonly Vector3 DEFAULT_VECTOR = Vector3.zero;
-    private static readonly Quaternion DEFAULT_QUATERNION = Quaternion.identity;
+    private static readonly Dictionary<Type, object> DEFAULT_VALUES = new()
+    {
+        { typeof(bool), false },
+        { typeof(float), 0f },
+        { typeof(int), 0 },
+        { typeof(string), string.Empty },
+        { typeof(Vector3), Vector3.zero },
+        { typeof(Quaternion), Quaternion.identity },
+        { typeof(GameObject), null },
+        { typeof(ScriptableObject), null },
+    };
 
     private void Awake()
     {
-        bools = new Dictionary<string, bool>();
-        floats = new Dictionary<string, float>();
-        ints = new Dictionary<string, int>();
-        strings = new Dictionary<string, string>();
-        stringLists = new Dictionary<string, List<string>>();
-        vector3s = new Dictionary<string, Vector3>();
-        quaternions = new Dictionary<string, Quaternion>();
-        gameObjects = new Dictionary<string, GameObject>();
-        scriptableObjects = new Dictionary<string, ScriptableObject>();
+        data = new()
+        {
+            { typeof(bool), new() },
+            { typeof(float), new() },
+            { typeof(int), new() },
+            { typeof(List<int>), new() },
+            { typeof(List<string>), new() },
+            { typeof(string), new() },
+            { typeof(Vector3), new() },
+            { typeof(Quaternion), new() },
+            { typeof(GameObject), new() },
+            { typeof(ScriptableObject), new() },
+        };
     }
+
     #region Bool
     public static bool GetBool(string key)
     {
-        if (!bools.TryGetValue(key, out bool v))
+        var bools = data[typeof(bool)];
+        if (!bools.TryGetValue(key, out object v))
         {
-            bools[key] = default;
-            return bools[key];
+            bools[key] = DEFAULT_VALUES[typeof(bool)];
+            return (bool)bools[key];
         }
-        return v;
+        return (bool)v;
     }
     public static bool GetBool(BoolKey key)
     {
@@ -49,7 +55,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetBool(string key, bool value)
     {
-        bools[key] = value;
+        data[typeof(bool)][key] = value;
     }
     public static void SetBool(BoolKey key, bool value)
     {
@@ -57,7 +63,8 @@ public class DataMessenger : MonoBehaviour
     }
     public static void ToggleBool(string key)
     {
-        bools[key] = !bools[key];
+        var bools = data[typeof(bool)];
+        bools[key] = !(bool)bools[key];
     }
     public static void ToggleBool(BoolKey key)
     {
@@ -76,12 +83,13 @@ public class DataMessenger : MonoBehaviour
     #region Float
     public static float GetFloat(string key)
     {
-        if (!floats.TryGetValue(key, out float v))
+        var floats = data[typeof(float)];
+        if (!floats.TryGetValue(key, out object v))
         {
-            floats[key] = default;
-            return floats[key];
+            floats[key] = DEFAULT_VALUES[typeof(float)];
+            return (float)floats[key];
         }
-        return v;
+        return (float)v;
     }
     public static float GetFloat(FloatKey key)
     {
@@ -89,7 +97,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetFloat(string key, float value)
     {
-        floats[key] = value;
+        data[typeof(float)][key] = value;
     }
     public static void SetFloat(FloatKey key, float value)
     {
@@ -112,7 +120,7 @@ public class DataMessenger : MonoBehaviour
                 SetFloat(key, GetFloat(key) / value);
                 break;
         }
-        return floats[key];
+        return (float)data[typeof(float)][key];
     }
     /// <summary>
     /// Performs an operation on the float associated with the given key with the value given. The operator is + by default.
@@ -126,12 +134,13 @@ public class DataMessenger : MonoBehaviour
     #region GameObject
     public static GameObject GetGameObject(string key)
     {
-        if (!gameObjects.TryGetValue(key, out GameObject obj))
+        var gameObjects = data[typeof(GameObject)];
+        if (!gameObjects.TryGetValue(key, out object v))
         {
-            gameObjects[key] = default;
-            return gameObjects[key];
+            gameObjects[key] = DEFAULT_VALUES[typeof(GameObject)];
+            return (GameObject)gameObjects[key];
         }
-        return obj;
+        return (GameObject)v;
     }
     public static GameObject GetGameObject(GameObjectKey key)
     {
@@ -139,7 +148,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetGameObject(string key, GameObject obj)
     {
-        gameObjects[key] = obj;
+        data[typeof(GameObject)][key] = obj;
     }
     public static void SetGameObject(GameObjectKey key, GameObject obj)
     {
@@ -150,12 +159,13 @@ public class DataMessenger : MonoBehaviour
     #region Int
     public static int GetInt(string key)
     {
-        if (!ints.TryGetValue(key, out int v))
+        var ints = data[typeof(int)];
+        if (!ints.TryGetValue(key, out object v))
         {
-            ints[key] = default;
-            return ints[key];
+            ints[key] = DEFAULT_VALUES[typeof(int)];
+            return (int)ints[key];
         }
-        return v;
+        return (int)v;
     }
     public static int GetInt(IntKey key)
     {
@@ -163,7 +173,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetInt(string key, int value)
     {
-        ints[key] = value;
+        data[typeof(int)][key] = value;
     }
     public static void SetInt(IntKey key, int value)
     {
@@ -186,7 +196,7 @@ public class DataMessenger : MonoBehaviour
                 SetInt(key, GetInt(key) / value);
                 break;
         }
-        return ints[key];
+        return (int)data[typeof(int)][key];
     }
     /// <summary>
     /// Performs an operation on the int associated with the given key with the int given. The operator is + by default.
@@ -215,7 +225,7 @@ public class DataMessenger : MonoBehaviour
                 SetInt(key, (int)(GetInt(key) / value + (doRound ? 0.5f : 0)));
                 break;
         }
-        return ints[key];
+        return (int)data[typeof(int)][key];
     }
     /// <summary>
     /// Performs an operation on the int associated with the given key with the float given. 
@@ -227,15 +237,97 @@ public class DataMessenger : MonoBehaviour
         return OperateInt(key.ToString(), value, op, doRound);
     }
     #endregion Int
+
+    #region List
+    /// <summary>
+    /// T must be in: int, string
+    /// </summary>
+    private static List<T> GetList<T>(string key)
+    {
+        var lists = data[typeof(List<T>)];
+        if (!lists.TryGetValue(key, out object v))
+        {
+            lists[key] = new List<T>();
+            return (List<T>)lists[key];
+        }
+        return (List<T>)v;
+    }
+    public static void SetList<T>(string key, List<T> value)
+    {
+        data[typeof(List<T>)][key] = value;
+    }
+    public static void AddToList<T>(string key, T value)
+    {
+        var stringLists = data[typeof(List<T>)];
+        if (!stringLists.TryGetValue(key, out _))
+        {
+            stringLists[key] = new List<T>();
+        }
+        ((List<T>)stringLists[key]).Add(value);
+    }
+
+    /// <returns>Whether the string was removed.</returns>
+    public static bool RemoveFromList<T>(string key, T value)
+    {
+        var lists = data[typeof(List<T>)];
+        if (!lists.TryGetValue(key, out object list))
+        {
+            return false;
+        }
+        ((List<T>)list).Remove(value);
+        return true;
+    }
+
+    #endregion List
+
+    #region StringList
+    public static List<string> GetStringList(string key)
+    {
+        return GetList<string>(key);
+    }
+    public static List<string> GetStringList(StringListKey key)
+    {
+        return GetList<string>(key.ToString());
+    }
+    public static void SetStringList(string key, List<string> value)
+    {
+        SetList(key, value);
+    }
+    public static void SetStringList(StringListKey key, List<string> value)
+    {
+        SetList(key.ToString(), value);
+    }
+    public static void AddStringToList(string key, string value)
+    {
+        AddToList(key, value);
+    }
+    public static void AddStringToList(StringListKey key, string value)
+    {
+        AddToList(key.ToString(), value);
+    }
+
+    /// <returns>Whether the string was removed.</returns>
+    public static bool RemoveStringFromList(string key, string value)
+    {
+        return RemoveFromList(key, value);
+    }
+    /// <returns>Whether the string was removed.</returns>
+    public static bool RemoveStringFromList(StringKey key, string value)
+    {
+        return RemoveFromList(key.ToString(), value);
+    }
+    #endregion StringList
+
     #region Quaternion
     public static Quaternion GetQuaternion(string key)
     {
-        if (!quaternions.TryGetValue(key, out Quaternion v))
+        var quaternions = data[typeof(Quaternion)];
+        if (!quaternions.TryGetValue(key, out object v))
         {
-            quaternions[key] = DEFAULT_QUATERNION;
-            return quaternions[key];
+            quaternions[key] = DEFAULT_VALUES[typeof(Quaternion)];
+            return (Quaternion)quaternions[key];
         }
-        return v;
+        return (Quaternion)v;
     }
     public static Quaternion GetQuaternion(QuaternionKey key)
     {
@@ -243,7 +335,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetQuaternion(string key, Quaternion value)
     {
-        quaternions[key] = value;
+        data[typeof(Quaternion)][key] = value;
     }
     public static void SetQuaternion(QuaternionKey key, Quaternion value)
     {
@@ -254,12 +346,13 @@ public class DataMessenger : MonoBehaviour
     #region ScriptableObject
     public static ScriptableObject GetScriptableObject(string key)
     {
-        if (!scriptableObjects.TryGetValue(key, out ScriptableObject obj))
+        var scriptableObjects = data[typeof(ScriptableObject)];
+        if (!scriptableObjects.TryGetValue(key, out object obj))
         {
             scriptableObjects[key] = default;
-            return scriptableObjects[key];
+            return (ScriptableObject)scriptableObjects[key];
         }
-        return obj;
+        return (ScriptableObject)obj;
     }
     public static ScriptableObject GetScriptableObject(ScriptableObjectKey key)
     {
@@ -267,7 +360,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetScriptableObject(string key, ScriptableObject obj)
     {
-        scriptableObjects[key] = obj;
+        data[typeof(ScriptableObject)][key] = obj;
     }
     public static void SetScriptableObject(ScriptableObjectKey key, ScriptableObject obj)
     {
@@ -279,12 +372,13 @@ public class DataMessenger : MonoBehaviour
 
     public static string GetString(string key)
     {
-        if (!strings.TryGetValue(key, out string v))
+        var strings = data[typeof(string)];
+        if (!strings.TryGetValue(key, out object v))
         {
-            strings[key] = DEFAULT_STRING;
-            return strings[key];
+            strings[key] = DEFAULT_VALUES[typeof(string)];
+            return (string)strings[key];
         }
-        return v;
+        return (string)v;
     }
     public static string GetString(StringKey key)
     {
@@ -292,7 +386,7 @@ public class DataMessenger : MonoBehaviour
     }
     public static void SetString(string key, string value)
     {
-        strings[key] = value;
+        data[typeof(string)][key] = value;
     }
     public static void SetString(StringKey key, string value)
     {
@@ -300,68 +394,16 @@ public class DataMessenger : MonoBehaviour
     }
     #endregion String
 
-    #region StringList
-    public static List<string> GetStringList(string key)
-    {
-        if (!stringLists.TryGetValue(key, out List<string> v))
-        {
-            stringLists[key] = DEFAULT_STRING_LIST;
-            return stringLists[key];
-        }
-        return v;
-    }
-    public static List<string> GetStringList(StringListKey key)
-    {
-        return GetStringList(key.ToString());
-    }
-    public static void SetStringList(string key, List<string> value)
-    {
-        stringLists[key] = value;
-    }
-    public static void SetStringList(StringListKey key, List<string> value)
-    {
-        SetStringList(key.ToString(), value);
-    }
-    public static void AddStringToList(string key, string value)
-    {
-        List<string> list;
-        if (!stringLists.TryGetValue(key, out list))
-        {
-            stringLists[key] = DEFAULT_STRING_LIST;
-        }
-        list.Add(value);
-    }
-    public static void AddStringToList(StringListKey key, string value)
-    {
-        AddStringToList(key.ToString(), value);
-    }
-    /// <returns>Whether the string was removed.</returns>
-    public static bool RemoveStringFromList(string key, string value)
-    {
-        List<string> list;
-        if (!stringLists.TryGetValue(key, out list))
-        {
-            return false;
-        }
-        list.Remove(value);
-        return true;
-    }
-    /// <returns>Whether the string was removed.</returns>
-    public static bool RemoveStringFromList(StringKey key, string value)
-    {
-        return RemoveStringFromList(key.ToString(), value);
-    }
-    #endregion StringList
-
     #region Vector3
     public static Vector3 GetVector3(string key)
     {
-        if (!vector3s.TryGetValue(key, out Vector3 v))
+        var vector3s = data[typeof(Vector3)];
+        if (!vector3s.TryGetValue(key, out object v))
         {
-            vector3s[key] = DEFAULT_VECTOR;
-            return vector3s[key];
+            vector3s[key] = DEFAULT_VALUES[typeof(Vector3)];
+            return (Vector3)vector3s[key];
         }
-        return v;
+        return (Vector3)v;
     }
     public static Vector3 GetVector3(Vector3Key key)
     {
@@ -370,7 +412,7 @@ public class DataMessenger : MonoBehaviour
 
     public static void SetVector3(string key, Vector3 value)
     {
-        vector3s[key] = value;
+        data[typeof(Vector3)][key] = value;
     }
     public static void SetVector3(Vector3Key key, Vector3 value)
     {

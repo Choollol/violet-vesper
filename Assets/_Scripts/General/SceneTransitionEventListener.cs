@@ -1,14 +1,20 @@
 using UnityEngine;
 
-public class SceneTransitionInteractable : ButtonInteractable
+public class SceneTransitionEventListener : MonoBehaviour
 {
-    [SerializeField] private SceneUtils.SceneName targetScene;
-    public override void Start()
-    {
-        base.Start();
+    [SerializeField] private string sceneTransitionEvent;
 
-        button.onClick.AddListener(TransitionScene);
+    [SerializeField] private SceneUtils.SceneName targetScene;
+
+    private void OnEnable()
+    {
+        EventMessenger.StartListening(sceneTransitionEvent, TransitionScene);
     }
+    private void OnDisable()
+    {
+        EventMessenger.StopListening(sceneTransitionEvent, TransitionScene);
+    }
+
     private void TransitionScene()
     {
         DataMessenger.SetString(StringKey.NewSceneName, targetScene.ToString());

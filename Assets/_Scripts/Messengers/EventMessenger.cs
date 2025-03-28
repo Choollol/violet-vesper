@@ -120,7 +120,6 @@ public enum EventKey
     EndScreenTransition,
     BeginScreenTransition,
     MenuGoBack,
-    TestTransition,
     SwitchMenuToMain,
     SwitchUI,
     SetSliderValue,
@@ -131,4 +130,6 @@ public enum EventKey
     UpdateDialogueText,
     UpdateDialogueSpeakerName,
     FinishUnrollingDialogue,
+    PuzzlePiecePlaced,
+    TestTransition,
 }

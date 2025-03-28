@@ -428,6 +428,7 @@ public enum BoolKey
     IsSceneTransitioning,
     IsScreenTransitioning,
     CanOpenMenu,
+    IsDialogueUnrolling,
 }
 public enum FloatKey
 {
@@ -437,12 +438,6 @@ public enum FloatKey
 public enum IntKey
 {
 
-}
-public enum StringKey
-{
-    NewSceneName,
-    PreviousSceneName,
-    NewUIName
 }
 public enum StringListKey
 {
@@ -463,5 +458,13 @@ public enum GameObjectKey
 public enum ScriptableObjectKey
 {
     DialogueData
+}
+public enum StringKey
+{
+    NewSceneName,
+    PreviousSceneName,
+    NewUIName,
+    DialogueText,
+    DialogueSpeakerName
 }
 #endregion KeyEnums

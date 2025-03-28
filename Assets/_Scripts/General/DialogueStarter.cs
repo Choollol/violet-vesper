@@ -8,7 +8,7 @@ public class DialogueStarter : MonoBehaviour
 
     private void OnEnable()
     {
-        EventMessenger.StopListening(startDialogueEventName, StartDialogue);
+        EventMessenger.StartListening(startDialogueEventName, StartDialogue);
     }
     private void OnDisable()
     {

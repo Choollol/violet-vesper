@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     private const string TESTING_SCENE_NAME = "Testing";
     private const string TITLE_SCREEN_SCENE_NAME = "Ocean_Start";
 
-    private InputAction cancelAction;
-    private InputAction testSceneAction;
+    /*private InputAction cancelAction;
+    private InputAction testSceneAction;*/
 
     private void OnEnable()
     {
@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
         EventMessenger.StartListening(EventKey.MenuClosed, MenuClosed);
 
         EventMessenger.StartListening(EventKey.TransitionScene, TransitionScene);
+
+        EventMessenger.StartListening(EventKey.OpenPauseMenu, OpenPauseMenu);
     }
     private void OnDisable()
     {
@@ -31,14 +33,16 @@ public class GameManager : MonoBehaviour
         EventMessenger.StopListening(EventKey.MenuClosed, MenuClosed);
 
         EventMessenger.StopListening(EventKey.TransitionScene, TransitionScene);
+        
+        EventMessenger.StartListening(EventKey.OpenPauseMenu, OpenPauseMenu);
     }
     private void Start()
     {
-        cancelAction = InputSystem.actions.FindAction("Cancel");
+        /*cancelAction = InputSystem.actions.FindAction("Cancel");
         testSceneAction = InputSystem.actions.FindAction("TestScene");
 
         cancelAction.performed += CancelPressed;
-        testSceneAction.performed += TestScenePressed;
+        testSceneAction.performed += TestScenePressed;*/
 
         if (!Application.isEditor)
         {
@@ -48,7 +52,7 @@ public class GameManager : MonoBehaviour
         DataMessenger.SetBool(BoolKey.CanOpenMenu, true);
         DataMessenger.SetBool(BoolKey.IsGameActive, true);
     }
-    private void CancelPressed(InputAction.CallbackContext context)
+    /*private void CancelPressed(InputAction.CallbackContext context)
     {
         if (DataMessenger.GetBool(BoolKey.IsScreenTransitioning) || !DataMessenger.GetBool(BoolKey.CanOpenMenu))
         {
@@ -81,7 +85,7 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadSceneAsync(TESTING_SCENE_NAME, LoadSceneMode.Additive);
         }
-    }
+    }*/
     private void TransitionScene()
     {
         StartCoroutine(HandleTransitionScene(DataMessenger.GetString(StringKey.NewSceneName),

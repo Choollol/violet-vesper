@@ -86,14 +86,14 @@ public class EventMessenger : MonoBehaviour
     /// Triggers an event through a given event name. All functions listening to the event will be invoked.
     /// </summary>
     /// <param name="eventName">The name of the event to trigger.</param>
-    public static void TriggerEvent(string eventName)
+    public static void TriggerEvent(string eventName, bool isSilent = false)
     {
         UnityEvent thisEvent = null;
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke();
         }
-        else
+        else if (!isSilent)
         {
             Debug.Log("EventMessenger does not contain " + eventName);
         }
@@ -103,9 +103,9 @@ public class EventMessenger : MonoBehaviour
     /// Triggers an event through a given event name. All functions listening to the event will be invoked.
     /// </summary>
     /// <param name="eventName">The name of the event to trigger.</param>
-    public static void TriggerEvent(EventKey eventName)
+    public static void TriggerEvent(EventKey eventName, bool isSilent = false)
     {
-        TriggerEvent(eventName.ToString());
+        TriggerEvent(eventName.ToString(), isSilent);
     }
 }
 
@@ -126,4 +126,9 @@ public enum EventKey
     SetSliderValue,
     SliderUpdated,
     BeginDialogue,
+    OpenPauseMenu,
+    Continue,
+    UpdateDialogueText,
+    UpdateDialogueSpeakerName,
+    FinishUnrollingDialogue,
 }

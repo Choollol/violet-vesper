@@ -5,6 +5,9 @@ public class DialogueText : TMPUtil
 {
     private const float defaultUnrollSpeed = 20f; // 1 = 1 character per second
     private const float slowUnrollSpeed = 5; // Speed to unroll at when slowed
+    
+    // Seconds to wait after finishing unrolling to prevent accidentally continuing too early
+    private const float postUnrollWaitTime = 0.2f; 
 
     private const string slowUnrollChars = ".";
 
@@ -49,6 +52,8 @@ public class DialogueText : TMPUtil
             text.text += c;
             yield return new WaitForSeconds(1 / (slowUnrollChars.Contains(c) ? slowUnrollSpeed : defaultUnrollSpeed));
         }
+
+        yield return new WaitForSeconds(postUnrollWaitTime);
 
         FinishUnrolling();
         yield break;

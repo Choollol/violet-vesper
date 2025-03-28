@@ -44,7 +44,7 @@ public class DialogueManager : MonoBehaviour
             }
 
             DataMessenger.SetString(StringKey.DialogueText, node.dialogueText);
-            DataMessenger.SetString(StringKey.DialogueSpeakerName, node.speakerName);
+            DataMessenger.SetString(StringKey.DialogueSpeakerName, node.speakerName + ':');
 
             EventMessenger.TriggerEvent(EventKey.UpdateDialogueText);
             EventMessenger.TriggerEvent(EventKey.UpdateDialogueSpeakerName);

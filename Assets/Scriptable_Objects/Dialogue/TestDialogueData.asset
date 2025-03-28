@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: TestDialogueData
   m_EditorClassIdentifier: 
   dialogue:
-  - speakerName: Speaker
+  - speakerName: chalk
     dialogueText: dialogue 1
     eventToTrigger: 
-  - speakerName: Speaker
+  - speakerName: key
     dialogueText: longer dialogue 2 thats long for real for real
     eventToTrigger: 

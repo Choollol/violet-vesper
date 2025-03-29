@@ -7,7 +7,33 @@ public class DragAndDropInteractable : InteractableImage, IDragHandler, IPointer
 
     [SerializeField] private Transform destinationToSnapTo;
 
-    [SerializeField] private bool doSnapPosition = true;
+    [SerializeField] private string allowSnapEvent;
+
+    private bool canSnap = true;
+
+    private void OnEnable()
+    {
+        if (!string.IsNullOrEmpty(allowSnapEvent))
+        {
+            EventMessenger.StartListening(allowSnapEvent, AllowSnap);
+        }
+    }
+    private void OnDisable()
+    {
+        if (!string.IsNullOrEmpty(allowSnapEvent))
+        {
+            EventMessenger.StopListening(allowSnapEvent, AllowSnap);
+        }
+    }
+    public override void Start()
+    {
+        base.Start();
+
+        if (!string.IsNullOrEmpty(allowSnapEvent))
+        {
+            canSnap = false;
+        }
+    }
 
     private void SetPosition(PointerEventData eventData)
     {
@@ -43,12 +69,16 @@ public class DragAndDropInteractable : InteractableImage, IDragHandler, IPointer
             rectTransform.SetPosY(topBound);
         }
     }
+    protected void CheckSnapDestination()
+    {
+        if (destinationToSnapTo != null && Vector2.Distance(rectTransform.position, destinationToSnapTo.position) <= snapDistance)
+        {
+            SnapToDestination();
+        }
+    }
     protected virtual void SnapToDestination()
     {
-        if (doSnapPosition)
-        {
-            rectTransform.position = destinationToSnapTo.position;
-        }
+        rectTransform.position = destinationToSnapTo.position;
         canInteract = false;
     }
     protected override void HandleDrag(PointerEventData eventData)
@@ -63,9 +93,10 @@ public class DragAndDropInteractable : InteractableImage, IDragHandler, IPointer
 
     protected override void HandlePointerUp(PointerEventData eventData)
     {
-        if (destinationToSnapTo != null && Vector2.Distance(rectTransform.position, destinationToSnapTo.position) <= snapDistance)
-        {
-            SnapToDestination();
-        }
+        CheckSnapDestination();
+    }
+    private void AllowSnap()
+    {
+        canSnap = true;
     }
 }

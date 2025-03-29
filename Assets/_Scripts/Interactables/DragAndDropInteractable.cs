@@ -7,6 +7,7 @@ public class DragAndDropInteractable : InteractableImage, IDragHandler, IPointer
 
     [SerializeField] private Transform destinationToSnapTo;
 
+    [SerializeField] private bool doSnapPosition = true;
 
     private void SetPosition(PointerEventData eventData)
     {
@@ -44,7 +45,10 @@ public class DragAndDropInteractable : InteractableImage, IDragHandler, IPointer
     }
     protected virtual void SnapToDestination()
     {
-        rectTransform.position = destinationToSnapTo.position;
+        if (doSnapPosition)
+        {
+            rectTransform.position = destinationToSnapTo.position;
+        }
         canInteract = false;
     }
     protected override void HandleDrag(PointerEventData eventData)
